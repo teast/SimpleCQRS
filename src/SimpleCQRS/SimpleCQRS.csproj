@@ -5,6 +5,21 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>Teast.SimpleCQRS</AssemblyName>
+    <RootNamespace>Teast.SimpleCQRS</RootNamespace>
+
+    <Authors>Teast</Authors>
+    <Owners>Teast</Owners>
+    <PackageProjectUrl>https://github.com/teast/SimpleCQRS</PackageProjectUrl>
+    <Description>Simple implementation of "cqrs"</Description>
+    <PackageTags>CQRS EventStore</PackageTags>
+    <Version>0.0.1-preview2</Version>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
+  <ItemGroup>
+      <None Include="README.md" Pack="true" PackagePath="" />
+      <None Include="LICENSE" Pack="true" PackagePath="" />
+  </ItemGroup>
 </Project>

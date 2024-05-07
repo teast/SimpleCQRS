@@ -1,4 +1,4 @@
-namespace SimpleCQRS;
+namespace Teast.SimpleCQRS;
 
 /// <summary>Represents an event for an <see cref="Aggregate{TEvent, TData, TID}"/></summary>
 public abstract record Event

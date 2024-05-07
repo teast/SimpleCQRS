@@ -1,4 +1,4 @@
-namespace SimpleCQRS;
+namespace Teast.SimpleCQRS;
 
 /// <summary>
 /// Aggregate contain the logic for modifying entity that the given aggregate represents

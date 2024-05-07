@@ -1,4 +1,4 @@
-namespace SimpleCQRS;
+namespace Teast.SimpleCQRS;
 
 /// <summary>Represents an data storage for reading and storing events and snapshots</summary>
 public interface IStorage<TEvent, TData, TID>

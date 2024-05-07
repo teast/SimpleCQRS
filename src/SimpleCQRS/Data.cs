@@ -1,6 +1,6 @@
-namespace SimpleCQRS;
+namespace Teast.SimpleCQRS;
 
-/// <summary>Represents data for an <see cref="SimpleCQRS.Aggregate{TEvent, TData, TID}"/></summary>
+/// <summary>Represents data for an <see cref="Teast.SimpleCQRS.Aggregate{TEvent, TData, TID}"/></summary>
 /// <param name="Id">Id for given entity</param>
 public abstract record Data<TID>(TID Id)
 {

@@ -1,4 +1,4 @@
-namespace SimpleCQRS;
+namespace Teast.SimpleCQRS;
 
 /// <summary>
 /// This is thrown if an <see cref="Aggregate{TEvent, TData, TID}"/>'s expected version is not matching the current version from data storage

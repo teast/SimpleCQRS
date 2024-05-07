@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SimpleCQRS;
+using Teast.SimpleCQRS;
 using UserApi.Database;
 using UserApi.Database.Models;
 

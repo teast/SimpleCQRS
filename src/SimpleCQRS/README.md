@@ -37,15 +37,3 @@ Represents an change to your entity. All changes that you support should inherit
 
 This class represents an snapshot (or projection) of your entity.
 It is possible to use SimpleCQRS without having an dedicated snapshot class.
-
-## Samples
-
-### UserApi
-
-This WebApi demonstrates how you can use SimpleCQRS with Entityframework Core as database storage.
-
-The entity in this example is an `User` entity where you can change the user's name, email or age through commands.
-You can also create an user through the `CreateCommand`.
-
-The `Data` object in this example is used as an projection instead of an snapshot object. That simplifies the "GET" calls where I can read directly from the projection table.
-

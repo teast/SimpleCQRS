@@ -1,4 +1,4 @@
-using SimpleCQRS;
+using Teast.SimpleCQRS;
 using UserApi.CQRS.Events;
 using UserApi.Database.Models;
 
@@ -81,4 +81,7 @@ public class UserAggregate : Aggregate<Events.UserEvent, Database.Models.User, i
 }
 
 public class InvalidStateException(string Message) : Exception(Message);
+#pragma warning disable CS9113
 public class UserNotFoundException(int Id, string Message) : Exception(Message);
+#pragma warning restore CS9113
+

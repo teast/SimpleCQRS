@@ -1,4 +1,4 @@
-using SimpleCQRS;
+using Teast.SimpleCQRS;
 
 namespace UserApi.Database.Models;
 

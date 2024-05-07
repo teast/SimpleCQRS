@@ -1,4 +1,4 @@
-namespace SimpleCQRS;
+namespace Teast.SimpleCQRS;
 
 /// <summary>
 /// <see cref="Repository{TAggregate, TStorage, TEvent, TData, TID}"/> is the nav between changes in <see cref="Repository{TAggregate, TStorage, TEvent, TData, TID}"/> and the data storage in <see cref="IStorage{TEvent, TData, TID}"/>
