@@ -13,7 +13,7 @@
     <PackageProjectUrl>https://github.com/teast/SimpleCQRS</PackageProjectUrl>
     <Description>Simple implementation of "cqrs"</Description>
     <PackageTags>CQRS EventStore</PackageTags>
-    <Version>0.0.1-preview2</Version>
+    <Version>0.0.1-preview3</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
