@@ -2,6 +2,15 @@
 
 This is a simple "CQRS"/EventStore implementation that can be used to simplify the boiling plates when building such solutions.
 
+## Nuget package
+
+To build nuget package and publish it you can do following commands:
+
+```bash
+dotnet pack src/SimpleCQRS/
+dotnet nuget push src/SimpleCQRS/bin/Release/Teast.SimpleCQRS.0.0.1-preview3.nupkg --api-key <redacted> --source nuget.org
+```
+
 ## Implementation
 
 The idea is to have `Command` objects that drives changes to your entity.
@@ -48,4 +57,3 @@ The entity in this example is an `User` entity where you can change the user's n
 You can also create an user through the `CreateCommand`.
 
 The `Data` object in this example is used as an projection instead of an snapshot object. That simplifies the "GET" calls where I can read directly from the projection table.
-
