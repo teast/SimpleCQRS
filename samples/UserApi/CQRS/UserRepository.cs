@@ -3,7 +3,7 @@ using UserApi.Database.Models;
 
 namespace UserApi.CQRS;
 
-public class UserRepository(UserStorage storage) : Repository<UserAggregate, UserStorage, Events.UserEvent, Database.Models.User, int>
+public class UserRepository(UserStorage storage) : Repository<UserAggregate, Events.UserEvent, Database.Models.User, int>
 {
     protected override Func<int, User> CreateData => id => new User(id);
 
