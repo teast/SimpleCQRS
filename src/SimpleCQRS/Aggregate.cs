@@ -16,6 +16,7 @@ public abstract class Aggregate<TEvent, TData, TID>
     public Aggregate(TData data)
     {
         Data = data with {};
+        OriginalVersion = Data.Version;
     }
 
     /// <summary>Will try and get next event that have not yet been stored</summary>
@@ -29,6 +30,10 @@ public abstract class Aggregate<TEvent, TData, TID>
 
     /// <summary>Should contain version that the latest snapshot has</summary>
     public int LatestSnapshotVersion => Data.LatestSnapshotVersion;
+
+    /// <summary>Version that the aggregate had when it was first read</summary>
+    /// <remarks>If changes happens to the aggregate its <see cref="Version"/> will be updated. This will stay as it was when aggregate was first fetched from <see cref="Repository{TAggregate, TEvent, TData, TID}"/></remarks>
+    public int OriginalVersion { get; }
 
     /// <summary>
     /// Return true if there are any events that have not yet been stored. Use <see cref="TryGetNextChange(out TEvent?)" /> to get this events
