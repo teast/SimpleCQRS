@@ -1,7 +1,3 @@
-
-
-using System.Reflection;
-
 namespace SimpleCQRS.Tests;
 
 public class RepositoryTests
@@ -67,9 +63,9 @@ public class RepositoryTests
         await sut.SaveAsync(aggregate, 0);
 
         // Assert
-        storage.Verify(m => m.AddEventAsync(aggregate.Id, 1, It.IsAny<TestEvent>()), Times.Once);
-        storage.Verify(m => m.AddEventAsync(aggregate.Id, 2, It.IsAny<TestEvent>()), Times.Once);
-        storage.Verify(m => m.AddEventAsync(aggregate.Id, 3, It.IsAny<TestEvent>()), Times.Once);
+        storage.Verify(m => m.AddEventAsync(aggregate.Id, It.Is<TestEvent>(e => e.Version == 1)), Times.Once);
+        storage.Verify(m => m.AddEventAsync(aggregate.Id, It.Is<TestEvent>(e => e.Version == 2)), Times.Once);
+        storage.Verify(m => m.AddEventAsync(aggregate.Id, It.Is<TestEvent>(e => e.Version == 3)), Times.Once);
         storage.Verify(m => m.UpdateSnapshotAsync(aggregate.Id, aggregate.LatestSnapshotVersion, aggregate.ToSnapshot()), Times.Once);
         storage.Verify(m => m.SaveChangesAsync(), Times.Once);
     }

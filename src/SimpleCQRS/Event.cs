@@ -4,8 +4,8 @@ namespace Teast.SimpleCQRS;
 public abstract record Event
 {
     /// <summary>This events version</summary>
-    public int Version { get; internal set; }
+    public int Version { get; set; }
     /// <summary>When this event was created</summary>
-    public virtual DateTimeOffset Timestamp { get; } = DateTimeOffset.UtcNow;
+    public virtual DateTimeOffset Timestamp { get; set; } = DateTimeOffset.UtcNow;
 }
 

@@ -50,8 +50,6 @@ public abstract class Aggregate<TEvent, TData, TID>
     /// </summary>
     protected virtual void Apply(TEvent @event)
     {
-        Data.Version = @event.Version;
-        Data.LastModified = @event.Timestamp;
     }
 
     /// <summary>Add a new event to this aggregate</summary>
@@ -67,10 +65,16 @@ public abstract class Aggregate<TEvent, TData, TID>
         }
     }
 
+    /// <summary>
+    /// Will apply given event byt first updating Version and LastModified fields and then call <see cref="Apply(TEvent)"/>
+    /// If the event is new it will be pushed to our <see cref="_changes"/> stack so it can later on be saved to our data storage
+    /// </summary>
     private void ApplyEvent(TEvent @event, bool isNew)
     {
-         Apply(@event);
-         if (isNew) _changes.Push(@event);
+        Data.Version = @event.Version;
+        Data.LastModified = @event.Timestamp;
+        Apply(@event);
+        if (isNew) _changes.Push(@event);
     }
 }
 

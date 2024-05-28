@@ -7,12 +7,12 @@ namespace UserApi.CQRS;
 
 public class UserStorage(UserDbContext context) : IStorage<Events.UserEvent, Database.Models.User, int>
 {
-    public async Task AddEventAsync(int aggregateId, int eventVersion, Events.UserEvent @event)
+    public async Task AddEventAsync(int aggregateId, Events.UserEvent @event)
     {
         await context.UserEvents.AddAsync(new UserEvent
         {
             UserId = aggregateId,
-            Version = eventVersion,
+            Version = @event.Version,
             Timestamp = DateTimeOffset.UtcNow,
             EventType = @event.GetType().Name,
             EventData = @event

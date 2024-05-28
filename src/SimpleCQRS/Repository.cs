@@ -33,7 +33,7 @@ public abstract class Repository<TAggregate, TEvent, TData, TID>
             if (!aggregate.TryGetNextChange(out var @event))
                 break;
 
-            await Storage.AddEventAsync(aggregate.Id, @event!.Version, @event);
+            await Storage.AddEventAsync(aggregate.Id, @event!);
         }
 
         await Storage.UpdateSnapshotAsync(aggregate.Id, aggregate.LatestSnapshotVersion, aggregate.ToSnapshot());

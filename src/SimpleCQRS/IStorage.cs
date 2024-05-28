@@ -8,7 +8,7 @@ public interface IStorage<TEvent, TData, TID>
     /// <summary>Get latest version for given id from data storage</summary>
     Task<int> GetMaxVersionAsync(TID aggregateId);
     /// <summary>Adds given events to the data storage</summary>
-    Task AddEventAsync(TID aggregateId, int eventVersion, TEvent @event);
+    Task AddEventAsync(TID aggregateId, TEvent @event);
     /// <summary>
     /// Will be called after new events have been stored and before <see cref="SaveChangesAsync"/> is called.
     /// If you want to have snapshot (or projection) support you could add logic in here for storing them
