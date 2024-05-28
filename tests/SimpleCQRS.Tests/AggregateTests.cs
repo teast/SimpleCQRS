@@ -61,6 +61,54 @@ public class AggregateTests
     }
 
     [Test]
+    public void OriginalVersion_ShouldReturnSnapshotsVersion()
+    {
+        // Arrange
+        var expected = _fixture.Create<TestData>();
+
+        // Act
+        var aggregate = new TestAggregate(expected);
+
+        // Assert
+        aggregate.OriginalVersion.Should().Be(expected.Version);
+    }
+
+    [Test]
+    public void OriginalVersion_ShouldBeUpdatedFromStoredEvents()
+    {
+        // Arrange
+        var sut = new TestAggregate(new TestData(42));
+        var loadFromHistory = sut.GetType().GetMethod("LoadFromHistory", BindingFlags.Instance | BindingFlags.NonPublic)!;
+        List<TestEvent> events =
+        [
+            new TestEvent { Version = 1 },
+            new TestEvent { Version = 2 },
+            new TestEvent { Version = 3 },
+        ];
+
+        // Act
+        loadFromHistory.Invoke(sut, [ events ]);
+
+        // Assert
+        sut.OriginalVersion.Should().Be(3);
+    }
+
+    [Test]
+    public void OriginalVersion_ShouldNotBeUpdatedWhenAddingNewEvents()
+    {
+        // Arrange
+        var sut = new TestAggregate(new TestData(42));
+        var expectedOriginalVersion = sut.OriginalVersion;
+
+        // Act
+        sut.AddEvent();
+
+        // Assert
+        sut.OriginalVersion.Should().Be(expectedOriginalVersion);
+        sut.Version.Should().Be(expectedOriginalVersion + 1);
+    }
+
+    [Test]
     public void LatestSnapshotVersion_ShouldReturnDataValue()
     {
         // Arrange

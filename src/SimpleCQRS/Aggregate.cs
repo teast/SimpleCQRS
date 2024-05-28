@@ -33,7 +33,7 @@ public abstract class Aggregate<TEvent, TData, TID>
 
     /// <summary>Version that the aggregate had when it was first read</summary>
     /// <remarks>If changes happens to the aggregate its <see cref="Version"/> will be updated. This will stay as it was when aggregate was first fetched from <see cref="Repository{TAggregate, TEvent, TData, TID}"/></remarks>
-    public int OriginalVersion { get; }
+    public int OriginalVersion { get; private set; }
 
     /// <summary>
     /// Return true if there are any events that have not yet been stored. Use <see cref="TryGetNextChange(out TEvent?)" /> to get this events
@@ -74,7 +74,14 @@ public abstract class Aggregate<TEvent, TData, TID>
         Data.Version = @event.Version;
         Data.LastModified = @event.Timestamp;
         Apply(@event);
-        if (isNew) _changes.Push(@event);
+        if (isNew)
+        {
+            _changes.Push(@event);
+        }
+        else
+        {
+            OriginalVersion = Data.Version;
+        }
     }
 }
 
