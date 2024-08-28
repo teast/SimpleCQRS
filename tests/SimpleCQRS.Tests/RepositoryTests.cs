@@ -69,6 +69,36 @@ public class RepositoryTests
         storage.Verify(m => m.UpdateSnapshotAsync(aggregate.Id, aggregate.LatestSnapshotVersion, aggregate.ToSnapshot()), Times.Once);
         storage.Verify(m => m.SaveChangesAsync(), Times.Once);
     }
+
+    [Test]
+    public async Task SaveAsync_Should_Save_Events_In_Order()
+    {
+        var callOrder = new Dictionary<int, string>();
+        var storage = new Mock<ITestStorage>();
+        var sut = new TestRepository(
+                _ => throw new InvalidProgramException("Should not be called in test"),
+                _ => throw new InvalidProgramException("Should not be called in test"),
+                storage.Object);
+
+        // Arrange
+        var aggregate = new TestAggregate(new TestData(42));
+        aggregate.AddEventWithData(new TestEvent("first"));
+        aggregate.AddEventWithData(new TestEvent("second"));
+        aggregate.AddEventWithData(new TestEvent("third"));
+        storage.Setup(m => m.GetMaxVersionAsync(aggregate.Id)).ReturnsAsync(0);
+        storage.Setup(m => m.AddEventAsync(It.IsAny<int>(), It.IsAny<TestEvent>()))
+            .Callback((int _, TestEvent e) => callOrder[callOrder.Count+1] = e.Name);
+
+        // Act
+        await sut.SaveAsync(aggregate, 0);
+
+        // Assert
+        callOrder[1].Should().Be("first");
+        callOrder[2].Should().Be("second");
+        callOrder[3].Should().Be("third");
+        storage.Verify(m => m.UpdateSnapshotAsync(aggregate.Id, aggregate.LatestSnapshotVersion, aggregate.ToSnapshot()), Times.Once);
+        storage.Verify(m => m.SaveChangesAsync(), Times.Once);
+    }
 #endregion
 #region GetAsync
     [Test]
@@ -127,7 +157,7 @@ public class RepositoryTests
         var events = new List<TestEvent>();
         for (var i = 1; i < 4; i++)
         {
-            var e = new TestEvent();
+            var e = new TestEvent("Test event");
             SetProperty(e, nameof(e.Version), i);
             events.Add(e);
         }
@@ -165,7 +195,7 @@ public class RepositoryTests
         var events = new List<TestEvent>();
         for (var i = 1; i < MaxEventVersions + 1; i++)
         {
-            var e = new TestEvent();
+            var e = new TestEvent("Test event");
             SetProperty(e, nameof(e.Version), i);
             events.Add(e);
         }

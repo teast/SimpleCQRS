@@ -1,4 +1,4 @@
 namespace SimpleCQRS.Tests.Data;
 
-public record TestEvent : Event;
+public record TestEvent(string Name) : Event;
 

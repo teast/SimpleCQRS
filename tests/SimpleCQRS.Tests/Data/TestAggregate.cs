@@ -12,7 +12,7 @@ public class TestAggregate(TestData data) : Aggregate<TestEvent, TestData, int>(
 
     public void AddEvent()
     {
-        AddEvent(new TestEvent());
+        AddEvent(new TestEvent("Test event"));
     }
     public void AddEventWithData(TestEvent @event)
         => AddEvent(@event);

@@ -7,7 +7,7 @@ public abstract class Aggregate<TEvent, TData, TID>
     where TEvent : Event
     where TData : Data<TID>
 {
-    private readonly Stack<TEvent> _changes = new ();
+    private readonly Queue<TEvent> _changes = new ();
 
     /// <summary>Represents data that the given entity has</summary>
     protected TData Data { get; set; }
@@ -20,7 +20,7 @@ public abstract class Aggregate<TEvent, TData, TID>
     }
 
     /// <summary>Will try and get next event that have not yet been stored</summary>
-    public bool TryGetNextChange(out TEvent? result) => _changes.TryPop(out result);
+    public bool TryGetNextChange(out TEvent? result) => _changes.TryDequeue(out result);
 
     /// <summary>Get id for this <see cref="Aggregate{TEvent, TData, TID}"/></summary>
     public TID Id => Data.Id;
@@ -76,7 +76,7 @@ public abstract class Aggregate<TEvent, TData, TID>
         Apply(@event);
         if (isNew)
         {
-            _changes.Push(@event);
+            _changes.Enqueue(@event);
         }
         else
         {
