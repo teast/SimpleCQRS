@@ -19,6 +19,12 @@ public class UserStorage(UserDbContext context) : IStorage<Events.UserEvent, Dat
         });
     }
 
+    public async Task<IEnumerable<Events.UserEvent>> GetEventsBeforeAsync(int aggregateId, DateTimeOffset upToDate)
+    {
+        var events = await context.UserEvents.Where(e => e.UserId == aggregateId && e.Timestamp <= upToDate).ToListAsync();
+        return events.Select(e => e.EventData);
+    }
+
     public async Task<IEnumerable<Events.UserEvent>> GetEventsAsync(int aggregateId, User snapshot)
     {
         var events = await context.UserEvents.Where(e => e.UserId == aggregateId && e.Version > snapshot.Version).ToListAsync();

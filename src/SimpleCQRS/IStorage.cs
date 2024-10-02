@@ -26,5 +26,9 @@ public interface IStorage<TEvent, TData, TID>
     /// Only events with <see cref="Event.Version"/> higher than <see cref="Data{TID}.LatestSnapshotVersion"/> should be returned
     /// </summary>
     Task<IEnumerable<TEvent>> GetEventsAsync(TID aggregateId, TData snapshot);
+    /// <summary>
+    /// Load all events for given aggregate id that was created up to and before <paramref name="upToDate"/>
+    /// </summary>
+    Task<IEnumerable<TEvent>> GetEventsBeforeAsync(TID aggregateId, DateTimeOffset upToDate);
 }
 

@@ -41,11 +41,31 @@ public abstract class Repository<TAggregate, TEvent, TData, TID>
     }
 
     /// <summary>
+    /// Load events with timestamp before <paramref name="upToDate"/> from storage and generate an instance of <typeparamref name="TAggregate"/>
+    /// </summary>
+    /// <param name="id">Unique id for entity to load events for</param>
+    /// <param name="upToDate">Load events up to given date</param>
+    public virtual async Task<TAggregate> GetAsync(TID id, DateTimeOffset upToDate)
+    {
+        var aggregate = CreateAggregate(CreateData(id) with { Version = 0 });
+        var events = await Storage.GetEventsBeforeAsync(id, upToDate);
+        aggregate.LoadFromHistory(events);
+        return aggregate;
+    }
+
+    /// <summary>
     /// Load snapshot and events from storage and generate an instance of <typeparamref name="TAggregate"/>
     /// </summary>
-    public virtual async Task<TAggregate> GetAsync(TID id)
+    /// <param name="id">Unique id for entity to load events for</param>
+    /// <param name="skipSnapshot">set to true to load latest snapshot and then all events after that snapshot</param>
+    public virtual async Task<TAggregate> GetAsync(TID id, bool skipSnapshot = false)
     {
-        var snapshot = (await Storage.GetSnapshotAsync(id)) ?? CreateData(id) with { Version = 0 };
+        var snapshot = skipSnapshot switch
+        {
+            false => (await Storage.GetSnapshotAsync(id)) ?? CreateData(id) with { Version = 0 },
+            true => CreateData(id) with { Version = 0 }
+        };
+
         var aggregate = CreateAggregate(snapshot);
         var events = await Storage.GetEventsAsync(id, snapshot);
         aggregate.LoadFromHistory(events);

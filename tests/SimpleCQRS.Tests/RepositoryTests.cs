@@ -100,7 +100,7 @@ public class RepositoryTests
         storage.Verify(m => m.SaveChangesAsync(), Times.Once);
     }
 #endregion
-#region GetAsync
+#region GetAsync(id)
     [Test]
     public async Task GetAsync_NonExistingEntity_Then_ReturnEntityWithVersionSetToZero()
     {
@@ -215,6 +215,91 @@ public class RepositoryTests
         result.Id.Should().Be(id);
         result.Version.Should().Be(4);
         result.NumberOfEventsApplied.Should().Be(1, "Because Snapshot's version is one step below MaxEventVersion we should only have loaded the last event");
+    }
+
+    [Test]
+    public async Task GetAsync_Existing_WithSnapshot_And_SkipSnapshotIsTrue_ReturnEntity()
+    {
+        const int id = 42;
+        const int MaxEventVersions = 4;
+
+        var createAggregateWasCalled = false;
+        var storage = new Mock<ITestStorage>();
+        var sut = new TestRepository(
+                id => new TestData(id),
+                data =>
+                {
+                    createAggregateWasCalled = true;
+                    return new TestAggregate(data);
+                },
+                storage.Object);
+        var events = new List<TestEvent>();
+        for (var i = 1; i < MaxEventVersions + 1; i++)
+        {
+            var e = new TestEvent("Test event");
+            SetProperty(e, nameof(e.Version), i);
+            events.Add(e);
+        }
+
+        var snapshot = new TestData(id) { LatestSnapshotVersion = MaxEventVersions - 1 };
+        SetProperty(snapshot, nameof(snapshot.Version), MaxEventVersions-1);
+
+        // Arrange
+        storage.Setup(m => m.GetSnapshotAsync(id)).ReturnsAsync(snapshot);
+        storage.Setup(m => m.GetEventsAsync(id, It.IsAny<TestData>())).ReturnsAsync(events);
+
+        // Act
+        var result = await sut.GetAsync(id, skipSnapshot: true);
+
+        // Assert
+        createAggregateWasCalled.Should().BeTrue();
+        result.Id.Should().Be(id);
+        result.Version.Should().Be(4);
+        result.NumberOfEventsApplied.Should().Be(MaxEventVersions, "Because Snapshot should not be loaded and all events should be loaded instead");
+    }
+#endregion
+#region GetAsync(id, upToDate)
+    [Test]
+    public async Task GetAsyncUpToDate_Should_Return_EventsCreatedBefore()
+    {
+        const int id = 42;
+        const int MaxEventVersions = 4;
+
+        var createAggregateWasCalled = false;
+        var storage = new Mock<ITestStorage>();
+        var sut = new TestRepository(
+                id => new TestData(id),
+                data =>
+                {
+                    createAggregateWasCalled = true;
+                    return new TestAggregate(data);
+                },
+                storage.Object);
+        var events = new List<TestEvent>();
+        for (var i = 1; i < MaxEventVersions + 1; i++)
+        {
+            var e = new TestEvent("Test event");
+            SetProperty(e, nameof(e.Version), i);
+            SetProperty(e, nameof(e.Timestamp), new DateTimeOffset(2024, 10, 01+i, 12, 13, 14, 0, new TimeSpan(1, 0, 0)));
+            events.Add(e);
+        }
+
+        var snapshot = new TestData(id) { LatestSnapshotVersion = MaxEventVersions - 1 };
+        SetProperty(snapshot, nameof(snapshot.Version), MaxEventVersions-1);
+
+        // Arrange
+        var date = new DateTimeOffset(2024, 10, 04, 12, 13, 14, 0, new TimeSpan(1, 0, 0));
+        storage.Setup(m => m.GetSnapshotAsync(id)).ReturnsAsync(snapshot);
+        storage.Setup(m => m.GetEventsBeforeAsync(id, date)).ReturnsAsync(events);
+
+        // Act
+        var result = await sut.GetAsync(id, date);
+
+        // Assert
+        createAggregateWasCalled.Should().BeTrue();
+        result.Id.Should().Be(id);
+        result.Version.Should().Be(4);
+        result.NumberOfEventsApplied.Should().Be(MaxEventVersions, $"Because {nameof(ITestStorage)}.{nameof(ITestStorage.GetEventsBeforeAsync)} should be called with correct date");
     }
 #endregion
 
