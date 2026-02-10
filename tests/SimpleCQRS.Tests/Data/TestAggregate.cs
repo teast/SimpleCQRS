@@ -12,13 +12,13 @@ public class TestAggregate(TestData data) : Aggregate<TestEventRecord, TestEvent
 
     public void AddEvent()
     {
-        AddEvent(new TestEventRecord { EventData = new TestEvent("Test event") });
+        AddEvent(new TestEventRecord { Event = new TestEvent("Test event") });
     }
 
     public void AddRecord(TestEventRecord record)
         => AddEvent(record);
 
     public void AddEventWithData(TestEvent @event)
-        => AddEvent(new TestEventRecord { EventData = @event });
+        => AddEvent(new TestEventRecord { Event = @event });
 }
 

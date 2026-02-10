@@ -87,7 +87,7 @@ public class RepositoryTests
         aggregate.AddEventWithData(new TestEvent("third"));
         storage.Setup(m => m.GetMaxVersionAsync(aggregate.Id)).ReturnsAsync(0);
         storage.Setup(m => m.AddEventAsync(It.IsAny<int>(), It.IsAny<TestEventRecord>()))
-            .Callback((int _, TestEventRecord e) => callOrder[callOrder.Count+1] = e.EventData.Name);
+            .Callback((int _, TestEventRecord e) => callOrder[callOrder.Count+1] = e.Event.Name);
 
         // Act
         await sut.SaveAsync(aggregate, 0);
@@ -157,7 +157,7 @@ public class RepositoryTests
         var events = new List<TestEventRecord>();
         for (var i = 1; i < 4; i++)
         {
-            var e = new TestEventRecord { EventData = new TestEvent("Test event") };
+            var e = new TestEventRecord { Event = new TestEvent("Test event") };
             SetProperty(e, nameof(e.Version), i);
             events.Add(e);
         }
@@ -195,7 +195,7 @@ public class RepositoryTests
         var events = new List<TestEventRecord>();
         for (var i = 1; i < MaxEventVersions + 1; i++)
         {
-            var e = new TestEventRecord { EventData = new TestEvent("Test event") };
+            var e = new TestEventRecord { Event = new TestEvent("Test event") };
             SetProperty(e, nameof(e.Version), i);
             events.Add(e);
         }
@@ -236,7 +236,7 @@ public class RepositoryTests
         var events = new List<TestEventRecord>();
         for (var i = 1; i < MaxEventVersions + 1; i++)
         {
-            var e = new TestEventRecord { EventData = new TestEvent("Test event") };
+            var e = new TestEventRecord { Event = new TestEvent("Test event") };
             SetProperty(e, nameof(e.Version), i);
             events.Add(e);
         }
@@ -278,7 +278,7 @@ public class RepositoryTests
         var events = new List<TestEventRecord>();
         for (var i = 1; i < MaxEventVersions + 1; i++)
         {
-            var e = new TestEventRecord { EventData = new TestEvent("Test event") };
+            var e = new TestEventRecord { Event = new TestEvent("Test event") };
             SetProperty(e, nameof(e.Version), i);
             SetProperty(e, nameof(e.Timestamp), new DateTimeOffset(2024, 10, 01+i, 12, 13, 14, 0, new TimeSpan(1, 0, 0)));
             events.Add(e);

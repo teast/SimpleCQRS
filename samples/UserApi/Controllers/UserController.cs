@@ -123,7 +123,7 @@ public class UserEventViewModel
 
     internal static UserEventViewModel From(UserEvent e)
     {
-        return new UserEventViewModel(e.Version, e.Timestamp, e.EventType, GetObject(e.EventData));
+        return new UserEventViewModel(e.Version, e.Timestamp, e.EventType, GetObject(e.Event));
     }
 
     private static Dictionary<string, object?> GetObject(object o)

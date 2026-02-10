@@ -11,7 +11,7 @@ public class UserStorage(UserDbContext context) : IStorage<Database.Models.UserE
     {
         await context.UserEvents.AddAsync(record with {
             UserId = aggregateId,
-            EventType = record.EventData.GetType().Name,
+            EventType = record.Event.GetType().Name,
         });
     }
 

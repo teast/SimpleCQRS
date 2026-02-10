@@ -9,6 +9,6 @@ public abstract record EventRecord<TEventData>
     /// <summary>When this event was created</summary>
     public virtual DateTimeOffset Timestamp { get; set; } = DateTimeOffset.UtcNow;
     /// <summary>The actual data for given event</summary>
-    public virtual TEventData EventData { get; set; } = default!;
+    public virtual TEventData Event { get; set; } = default!;
 }
 

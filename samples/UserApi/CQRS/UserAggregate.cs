@@ -12,7 +12,7 @@ public class UserAggregate : Aggregate<Database.Models.UserEvent, Events.UserEve
 
     protected override void Apply(Database.Models.UserEvent record)
     {
-        var @event = record.EventData;
+        var @event = record.Event;
         switch(@event)
         {
             case CreatedEvent e:
@@ -44,7 +44,7 @@ public class UserAggregate : Aggregate<Database.Models.UserEvent, Events.UserEve
         AddEvent(CreateRecord(new CreatedEvent(id, name, email, age)));
     }
     private static Database.Models.UserEvent CreateRecord(Events.UserEvent @event)
-        => new Database.Models.UserEvent { EventType = @event.GetType().Name, EventData = @event };
+        => new Database.Models.UserEvent { EventType = @event.GetType().Name, Event = @event };
 
     public void ChangeName(string name)
     {

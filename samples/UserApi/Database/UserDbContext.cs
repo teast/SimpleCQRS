@@ -25,7 +25,7 @@ public class UserDbContext : DbContext
             builder.HasKey(e => new { e.UserId, e.Version });
 
             // Because we are storing our event data as a json blob we need to property convert it and storing the type name so we know what UserEvent to actual deserialize the json back to
-            builder.Property(e => e.EventData)
+            builder.Property(e => e.Event)
             .HasConversion(
                 @event => Newtonsoft.Json.JsonConvert.SerializeObject(@event, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }),
                 data => JsonConvert.DeserializeObject<CQRS.Events.UserEvent>(data, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All })!
