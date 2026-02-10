@@ -1,7 +1,7 @@
 
 namespace SimpleCQRS.Tests.Data;
 
-public class TestRepository : Repository<TestAggregate, TestEvent, TestData, int>
+public class TestRepository : Repository<TestAggregate, TestEventRecord, TestEvent, TestData, int>
 {
     protected override Func<int, TestData> CreateData { get; }
 

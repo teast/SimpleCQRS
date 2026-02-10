@@ -63,9 +63,9 @@ public class RepositoryTests
         await sut.SaveAsync(aggregate, 0);
 
         // Assert
-        storage.Verify(m => m.AddEventAsync(aggregate.Id, It.Is<TestEvent>(e => e.Version == 1)), Times.Once);
-        storage.Verify(m => m.AddEventAsync(aggregate.Id, It.Is<TestEvent>(e => e.Version == 2)), Times.Once);
-        storage.Verify(m => m.AddEventAsync(aggregate.Id, It.Is<TestEvent>(e => e.Version == 3)), Times.Once);
+        storage.Verify(m => m.AddEventAsync(aggregate.Id, It.Is<TestEventRecord>(e => e.Version == 1)), Times.Once);
+        storage.Verify(m => m.AddEventAsync(aggregate.Id, It.Is<TestEventRecord>(e => e.Version == 2)), Times.Once);
+        storage.Verify(m => m.AddEventAsync(aggregate.Id, It.Is<TestEventRecord>(e => e.Version == 3)), Times.Once);
         storage.Verify(m => m.UpdateSnapshotAsync(aggregate.Id, aggregate.LatestSnapshotVersion, aggregate.ToSnapshot()), Times.Once);
         storage.Verify(m => m.SaveChangesAsync(), Times.Once);
     }
@@ -86,8 +86,8 @@ public class RepositoryTests
         aggregate.AddEventWithData(new TestEvent("second"));
         aggregate.AddEventWithData(new TestEvent("third"));
         storage.Setup(m => m.GetMaxVersionAsync(aggregate.Id)).ReturnsAsync(0);
-        storage.Setup(m => m.AddEventAsync(It.IsAny<int>(), It.IsAny<TestEvent>()))
-            .Callback((int _, TestEvent e) => callOrder[callOrder.Count+1] = e.Name);
+        storage.Setup(m => m.AddEventAsync(It.IsAny<int>(), It.IsAny<TestEventRecord>()))
+            .Callback((int _, TestEventRecord e) => callOrder[callOrder.Count+1] = e.EventData.Name);
 
         // Act
         await sut.SaveAsync(aggregate, 0);
@@ -154,10 +154,10 @@ public class RepositoryTests
                     return new TestAggregate(data);
                 },
                 storage.Object);
-        var events = new List<TestEvent>();
+        var events = new List<TestEventRecord>();
         for (var i = 1; i < 4; i++)
         {
-            var e = new TestEvent("Test event");
+            var e = new TestEventRecord { EventData = new TestEvent("Test event") };
             SetProperty(e, nameof(e.Version), i);
             events.Add(e);
         }
@@ -192,10 +192,10 @@ public class RepositoryTests
                     return new TestAggregate(data);
                 },
                 storage.Object);
-        var events = new List<TestEvent>();
+        var events = new List<TestEventRecord>();
         for (var i = 1; i < MaxEventVersions + 1; i++)
         {
-            var e = new TestEvent("Test event");
+            var e = new TestEventRecord { EventData = new TestEvent("Test event") };
             SetProperty(e, nameof(e.Version), i);
             events.Add(e);
         }
@@ -233,10 +233,10 @@ public class RepositoryTests
                     return new TestAggregate(data);
                 },
                 storage.Object);
-        var events = new List<TestEvent>();
+        var events = new List<TestEventRecord>();
         for (var i = 1; i < MaxEventVersions + 1; i++)
         {
-            var e = new TestEvent("Test event");
+            var e = new TestEventRecord { EventData = new TestEvent("Test event") };
             SetProperty(e, nameof(e.Version), i);
             events.Add(e);
         }
@@ -275,10 +275,10 @@ public class RepositoryTests
                     return new TestAggregate(data);
                 },
                 storage.Object);
-        var events = new List<TestEvent>();
+        var events = new List<TestEventRecord>();
         for (var i = 1; i < MaxEventVersions + 1; i++)
         {
-            var e = new TestEvent("Test event");
+            var e = new TestEventRecord { EventData = new TestEvent("Test event") };
             SetProperty(e, nameof(e.Version), i);
             SetProperty(e, nameof(e.Timestamp), new DateTimeOffset(2024, 10, 01+i, 12, 13, 14, 0, new TimeSpan(1, 0, 0)));
             events.Add(e);

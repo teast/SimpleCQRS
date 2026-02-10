@@ -4,14 +4,15 @@ using UserApi.Database.Models;
 
 namespace UserApi.CQRS;
 
-public class UserAggregate : Aggregate<Events.UserEvent, Database.Models.User, int>
+public class UserAggregate : Aggregate<Database.Models.UserEvent, Events.UserEvent, Database.Models.User, int>
 {
     public UserAggregate(User data) : base(data)
     {
     }
 
-    protected override void Apply(Events.UserEvent @event)
+    protected override void Apply(Database.Models.UserEvent record)
     {
+        var @event = record.EventData;
         switch(@event)
         {
             case CreatedEvent e:
@@ -32,7 +33,7 @@ public class UserAggregate : Aggregate<Events.UserEvent, Database.Models.User, i
                 throw new NotImplementedException($"No handler implemented for event of type {@event.GetType()} in {nameof(Apply)}");
         }
 
-        base.Apply(@event);
+        base.Apply(record);
     }
 
     public void Create(int id, string name, string email, int age)
@@ -40,8 +41,10 @@ public class UserAggregate : Aggregate<Events.UserEvent, Database.Models.User, i
         if (Version > 0)
             throw new InvalidStateException($"User with id {id} already exists!");
 
-        AddEvent(new CreatedEvent(id, name, email, age));
+        AddEvent(CreateRecord(new CreatedEvent(id, name, email, age)));
     }
+    private static Database.Models.UserEvent CreateRecord(Events.UserEvent @event)
+        => new Database.Models.UserEvent { EventType = @event.GetType().Name, EventData = @event };
 
     public void ChangeName(string name)
     {
@@ -52,7 +55,7 @@ public class UserAggregate : Aggregate<Events.UserEvent, Database.Models.User, i
         if (Data.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))
             return;
 
-        AddEvent(new NameChangedEvent(name));
+        AddEvent(CreateRecord(new NameChangedEvent(name)));
     }
 
     public void ChangeEmail(string email)
@@ -64,7 +67,7 @@ public class UserAggregate : Aggregate<Events.UserEvent, Database.Models.User, i
         if (Data.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase))
             return;
 
-        AddEvent(new EmailChangedEvent(email));
+        AddEvent(CreateRecord(new EmailChangedEvent(email)));
     }
 
     public void ChangeAge(int age)
@@ -76,7 +79,7 @@ public class UserAggregate : Aggregate<Events.UserEvent, Database.Models.User, i
         if (age == Data.Age)
             return;
 
-        AddEvent(new AgeChangedEvent(age));
+        AddEvent(CreateRecord(new AgeChangedEvent(age)));
     }
 }
 

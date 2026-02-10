@@ -1,0 +1,215 @@
+SF:/mnt/Nya3TB/dev/SimpleCQRS/src/SimpleCQRS/Aggregate.cs
+FN:12,TData Teast.SimpleCQRS.Aggregate`4::get_Data()
+FNDA:215,TData Teast.SimpleCQRS.Aggregate`4::get_Data()
+DA:13,215
+FN:22,System.Boolean Teast.SimpleCQRS.Aggregate`4::TryGetNextChange(TEventRecord&)
+FNDA:9,System.Boolean Teast.SimpleCQRS.Aggregate`4::TryGetNextChange(TEventRecord&)
+DA:23,9
+FN:25,TID Teast.SimpleCQRS.Aggregate`4::get_Id()
+FNDA:34,TID Teast.SimpleCQRS.Aggregate`4::get_Id()
+DA:26,34
+FN:28,System.Int32 Teast.SimpleCQRS.Aggregate`4::get_Version()
+FNDA:45,System.Int32 Teast.SimpleCQRS.Aggregate`4::get_Version()
+DA:29,45
+FN:31,System.Int32 Teast.SimpleCQRS.Aggregate`4::get_LatestSnapshotVersion()
+FNDA:7,System.Int32 Teast.SimpleCQRS.Aggregate`4::get_LatestSnapshotVersion()
+DA:32,7
+FN:35,System.Int32 Teast.SimpleCQRS.Aggregate`4::get_OriginalVersion()
+FNDA:43,System.Int32 Teast.SimpleCQRS.Aggregate`4::get_OriginalVersion()
+DA:36,43
+FN:40,System.Boolean Teast.SimpleCQRS.Aggregate`4::get_HasChanges()
+FNDA:15,System.Boolean Teast.SimpleCQRS.Aggregate`4::get_HasChanges()
+DA:41,15
+FN:44,TData Teast.SimpleCQRS.Aggregate`4::ToSnapshot()
+FNDA:7,TData Teast.SimpleCQRS.Aggregate`4::ToSnapshot()
+DA:45,7
+FN:51,System.Void Teast.SimpleCQRS.Aggregate`4::Apply(TEventRecord)
+FNDA:29,System.Void Teast.SimpleCQRS.Aggregate`4::Apply(TEventRecord)
+DA:52,29
+DA:53,29
+FN:56,System.Void Teast.SimpleCQRS.Aggregate`4::AddEvent(TEventRecord)
+FNDA:13,System.Void Teast.SimpleCQRS.Aggregate`4::AddEvent(TEventRecord)
+DA:57,13
+FN:60,System.Void Teast.SimpleCQRS.Aggregate`4::LoadFromHistory(System.Collections.Generic.IEnumerable`1<TEventRecord>)
+FNDA:7,System.Void Teast.SimpleCQRS.Aggregate`4::LoadFromHistory(System.Collections.Generic.IEnumerable`1<TEventRecord>)
+DA:61,7
+DA:62,91
+DA:63,16
+DA:64,16
+DA:65,16
+DA:66,7
+BRDA:62,26,0,1
+BRDA:62,26,1,7
+BRDA:62,88,1,16
+BRDA:62,88,0,7
+FN:72,System.Void Teast.SimpleCQRS.Aggregate`4::ApplyEvent(TEventRecord,System.Boolean)
+FNDA:29,System.Void Teast.SimpleCQRS.Aggregate`4::ApplyEvent(TEventRecord,System.Boolean)
+DA:73,29
+DA:74,29
+DA:75,29
+DA:76,29
+DA:77,29
+DA:78,13
+DA:79,13
+DA:80,13
+DA:82,16
+DA:83,16
+DA:84,16
+DA:85,29
+BRDA:77,68,0,13
+BRDA:77,68,1,16
+FN:9,System.Void Teast.SimpleCQRS.Aggregate`4::.ctor(TData)
+FNDA:23,System.Void Teast.SimpleCQRS.Aggregate`4::.ctor(TData)
+DA:10,23
+DA:16,23
+DA:17,23
+DA:18,23
+DA:19,23
+DA:20,23
+LF:35
+LH:35
+BRF:6
+BRH:6
+FNF:13
+FNH:13
+end_of_record
+SF:/mnt/Nya3TB/dev/SimpleCQRS/src/SimpleCQRS/ConcurrencyException.cs
+FN:8,System.String Teast.SimpleCQRS.ConcurrencyException::get_Id()
+FNDA:1,System.String Teast.SimpleCQRS.ConcurrencyException::get_Id()
+DA:9,1
+FN:10,System.Int32 Teast.SimpleCQRS.ConcurrencyException::get_ExpectedVersion()
+FNDA:0,System.Int32 Teast.SimpleCQRS.ConcurrencyException::get_ExpectedVersion()
+DA:11,0
+FN:12,System.Int32 Teast.SimpleCQRS.ConcurrencyException::get_CurrentVersion()
+FNDA:0,System.Int32 Teast.SimpleCQRS.ConcurrencyException::get_CurrentVersion()
+DA:13,0
+FN:15,System.Void Teast.SimpleCQRS.ConcurrencyException::.ctor()
+FNDA:0,System.Void Teast.SimpleCQRS.ConcurrencyException::.ctor()
+DA:16,0
+FN:17,System.Void Teast.SimpleCQRS.ConcurrencyException::.ctor(System.String)
+FNDA:0,System.Void Teast.SimpleCQRS.ConcurrencyException::.ctor(System.String)
+DA:18,0
+FN:19,System.Void Teast.SimpleCQRS.ConcurrencyException::.ctor(System.Exception)
+FNDA:0,System.Void Teast.SimpleCQRS.ConcurrencyException::.ctor(System.Exception)
+DA:20,0
+FN:21,System.Void Teast.SimpleCQRS.ConcurrencyException::.ctor(System.String,System.Exception)
+FNDA:0,System.Void Teast.SimpleCQRS.ConcurrencyException::.ctor(System.String,System.Exception)
+DA:22,0
+FN:23,System.Void Teast.SimpleCQRS.ConcurrencyException::.ctor(System.String,System.Int32,System.Int32)
+FNDA:1,System.Void Teast.SimpleCQRS.ConcurrencyException::.ctor(System.String,System.Int32,System.Int32)
+DA:24,1
+DA:25,1
+DA:26,1
+DA:27,1
+DA:28,1
+DA:29,1
+FN:31,System.Void Teast.SimpleCQRS.ConcurrencyException::.ctor(System.String,System.Int32,System.Int32,System.Exception)
+FNDA:0,System.Void Teast.SimpleCQRS.ConcurrencyException::.ctor(System.String,System.Int32,System.Int32,System.Exception)
+DA:32,0
+DA:33,0
+DA:34,0
+DA:35,0
+DA:36,0
+DA:37,0
+LF:19
+LH:7
+BRF:0
+BRH:0
+FNF:9
+FNH:2
+end_of_record
+SF:/mnt/Nya3TB/dev/SimpleCQRS/src/SimpleCQRS/Data.cs
+FN:4,TID Teast.SimpleCQRS.Data`1::get_Id()
+FNDA:72,TID Teast.SimpleCQRS.Data`1::get_Id()
+DA:5,72
+FN:7,System.Int32 Teast.SimpleCQRS.Data`1::get_Version()
+FNDA:128,System.Int32 Teast.SimpleCQRS.Data`1::get_Version()
+DA:8,128
+FN:9,System.Int32 Teast.SimpleCQRS.Data`1::get_LatestSnapshotVersion()
+FNDA:23,System.Int32 Teast.SimpleCQRS.Data`1::get_LatestSnapshotVersion()
+DA:10,23
+FN:11,System.DateTimeOffset Teast.SimpleCQRS.Data`1::get_LastModified()
+FNDA:34,System.DateTimeOffset Teast.SimpleCQRS.Data`1::get_LastModified()
+DA:12,34
+LF:4
+LH:4
+BRF:0
+BRH:0
+FNF:4
+FNH:4
+end_of_record
+SF:/mnt/Nya3TB/dev/SimpleCQRS/src/SimpleCQRS/EventRecord.cs
+FN:7,System.Int32 Teast.SimpleCQRS.EventRecord`1::get_Version()
+FNDA:113,System.Int32 Teast.SimpleCQRS.EventRecord`1::get_Version()
+DA:8,113
+FN:9,System.DateTimeOffset Teast.SimpleCQRS.EventRecord`1::get_Timestamp()
+FNDA:69,System.DateTimeOffset Teast.SimpleCQRS.EventRecord`1::get_Timestamp()
+DA:10,69
+FN:11,TEventData Teast.SimpleCQRS.EventRecord`1::get_EventData()
+FNDA:73,TEventData Teast.SimpleCQRS.EventRecord`1::get_EventData()
+DA:12,73
+LF:3
+LH:3
+BRF:0
+BRH:0
+FNF:3
+FNH:3
+end_of_record
+SF:/mnt/Nya3TB/dev/SimpleCQRS/src/SimpleCQRS/Repository.cs
+FN:48,System.Void Teast.SimpleCQRS.Repository`5/<GetAsync>d__7::MoveNext()
+FNDA:1,System.Void Teast.SimpleCQRS.Repository`5/<GetAsync>d__7::MoveNext()
+DA:49,1
+DA:50,1
+DA:51,1
+DA:52,1
+DA:53,1
+DA:54,1
+FN:61,System.Void Teast.SimpleCQRS.Repository`5/<GetAsync>d__8::MoveNext()
+FNDA:4,System.Void Teast.SimpleCQRS.Repository`5/<GetAsync>d__8::MoveNext()
+DA:62,4
+DA:63,4
+DA:64,4
+DA:65,3
+DA:66,1
+DA:67,4
+DA:69,4
+DA:70,4
+DA:71,4
+DA:72,4
+DA:73,4
+BRDA:63,36,1,3
+BRDA:65,173,0,2
+BRDA:65,173,1,3
+BRDA:63,36,0,1
+FN:23,System.Void Teast.SimpleCQRS.Repository`5/<SaveAsync>d__6::MoveNext()
+FNDA:4,System.Void Teast.SimpleCQRS.Repository`5/<SaveAsync>d__6::MoveNext()
+DA:24,4
+DA:25,4
+DA:26,1
+DA:28,3
+DA:29,3
+DA:30,1
+DA:31,8
+DA:32,6
+DA:33,6
+DA:34,0
+DA:36,6
+DA:37,6
+DA:39,2
+DA:40,2
+DA:41,3
+BRDA:25,73,0,1
+BRDA:25,73,1,3
+BRDA:29,240,0,1
+BRDA:31,506,1,6
+BRDA:33,335,1,6
+BRDA:29,240,1,8
+BRDA:33,335,0,2
+BRDA:31,506,0,2
+LF:32
+LH:31
+BRF:12
+BRH:12
+FNF:3
+FNH:3
+end_of_record

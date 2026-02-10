@@ -1,11 +1,11 @@
 namespace Teast.SimpleCQRS;
 
 /// <summary>
-/// This is thrown if an <see cref="Aggregate{TEvent, TData, TID}"/>'s expected version is not matching the current version from data storage
+/// This is thrown if an <see cref="Aggregate{TEventRecord, TEvent, TData, TID}"/>'s expected version is not matching the current version from data storage
 /// </summary>
 public class ConcurrencyException : AggregateException
 {
-    /// <summary>Id of the <see cref="Aggregate{TEvent, TData, TID}" /></summary>
+    /// <summary>Id of the <see cref="Aggregate{TEventRecord, TEvent, TData, TID}" /></summary>
     public string Id { get; } = default!;
     /// <summary>The expected version when this exception occurred</summary>
     public int ExpectedVersion { get; }

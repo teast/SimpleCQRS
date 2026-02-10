@@ -1,14 +1,14 @@
 namespace Teast.SimpleCQRS;
 
 /// <summary>Represents an data storage for reading and storing events and snapshots</summary>
-public interface IStorage<TEvent, TData, TID>
-    where TEvent : Event
+public interface IStorage<TEventRecord, TEventData, TData, TID>
+    where TEventRecord : EventRecord<TEventData>
     where TData : Data<TID>
 {
     /// <summary>Get latest version for given id from data storage</summary>
     Task<int> GetMaxVersionAsync(TID aggregateId);
     /// <summary>Adds given events to the data storage</summary>
-    Task AddEventAsync(TID aggregateId, TEvent @event);
+    Task AddEventAsync(TID aggregateId, TEventRecord @event);
     /// <summary>
     /// Will be called after new events have been stored and before <see cref="SaveChangesAsync"/> is called.
     /// If you want to have snapshot (or projection) support you could add logic in here for storing them
@@ -23,12 +23,12 @@ public interface IStorage<TEvent, TData, TID>
     Task<TData?> GetSnapshotAsync(TID aggregateId);
     /// <summary>
     /// Will load all events for given aggregate id.
-    /// Only events with <see cref="Event.Version"/> higher than <see cref="Data{TID}.LatestSnapshotVersion"/> should be returned
+    /// Only events with <see cref="EventRecord{TEventData}.Version"/> higher than <see cref="Data{TID}.LatestSnapshotVersion"/> should be returned
     /// </summary>
-    Task<IEnumerable<TEvent>> GetEventsAsync(TID aggregateId, TData snapshot);
+    Task<IEnumerable<TEventRecord>> GetEventsAsync(TID aggregateId, TData snapshot);
     /// <summary>
     /// Load all events for given aggregate id that was created up to and before <paramref name="upToDate"/>
     /// </summary>
-    Task<IEnumerable<TEvent>> GetEventsBeforeAsync(TID aggregateId, DateTimeOffset upToDate);
+    Task<IEnumerable<TEventRecord>> GetEventsBeforeAsync(TID aggregateId, DateTimeOffset upToDate);
 }
 

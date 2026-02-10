@@ -1,11 +1,11 @@
 namespace Teast.SimpleCQRS;
 
 /// <summary>
-/// <see cref="Repository{TAggregate, TEvent, TData, TID}"/> is the nav between changes in <see cref="Repository{TAggregate, TEvent, TData, TID}"/> and the data storage in <see cref="IStorage{TEvent, TData, TID}"/>
+/// <see cref="Repository{TAggregate, TEventRecord, TEventData, TData, TID}"/> is the nav between changes in <see cref="Repository{TAggregate, TEventRecord, TEventData, TData, TID}"/> and the data storage in <see cref="IStorage{TEventRecord, TEventData, TData, TID}"/>
 /// </summary>
-public abstract class Repository<TAggregate, TEvent, TData, TID>
-    where TAggregate: Aggregate<TEvent, TData, TID>
-    where TEvent : Event
+public abstract class Repository<TAggregate, TEventRecord, TEventData, TData, TID>
+    where TAggregate: Aggregate<TEventRecord, TEventData, TData, TID>
+    where TEventRecord : EventRecord<TEventData>
     where TData : Data<TID>
 {
     /// <summary>Define how to create an <typeparamref name="TData"/></summary>
@@ -15,7 +15,7 @@ public abstract class Repository<TAggregate, TEvent, TData, TID>
     protected abstract Func<TData, TAggregate> CreateAggregate { get; }
 
     /// <summary>Set to data storage to be used when fetching/storing events and snapshots</summary>
-    protected abstract IStorage<TEvent, TData, TID> Storage { get; }
+    protected abstract IStorage<TEventRecord, TEventData, TData, TID> Storage { get; }
 
     /// <summary>
     /// Will fetch all new changes from <paramref name="aggregate"/> and store it using <see cref="Storage"/>

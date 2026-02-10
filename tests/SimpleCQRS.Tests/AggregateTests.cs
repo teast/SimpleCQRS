@@ -79,11 +79,11 @@ public class AggregateTests
         // Arrange
         var sut = new TestAggregate(new TestData(42));
         var loadFromHistory = sut.GetType().GetMethod("LoadFromHistory", BindingFlags.Instance | BindingFlags.NonPublic)!;
-        List<TestEvent> events =
+        List<TestEventRecord> events =
         [
-            new TestEvent("Test Event") { Version = 1 },
-            new TestEvent("Test Event") { Version = 2 },
-            new TestEvent("Test Event") { Version = 3 },
+            new TestEventRecord { EventData = new TestEvent("Test Event"), Version = 1 },
+            new TestEventRecord { EventData = new TestEvent("Test Event"), Version = 2 },
+            new TestEventRecord { EventData = new TestEvent("Test Event"), Version = 3 },
         ];
 
         // Act
@@ -180,10 +180,10 @@ public class AggregateTests
     {
         // Arrange
         var sut = new TestAggregate(new TestData(42));
-        var expected = new TestEvent("Test Event");
+        var expected = new TestEventRecord { EventData = new TestEvent("Test Event") };
 
         // Act
-        sut.AddEventWithData(expected);
+        sut.AddRecord(expected);
 
         // Assert
         var result = (TestData)sut.GetType().GetProperty("Data", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(sut)!;
@@ -197,10 +197,10 @@ public class AggregateTests
         var data = new TestData(42);
         SetProperty(data, nameof(data.Version), 3);
 
-        var events = new List<TestEvent>();
+        var events = new List<TestEventRecord>();
         for(var i = 1; i <= 4; i++)
         {
-            var e = new TestEvent("Test Event");
+            var e = new TestEventRecord { EventData = new TestEvent("Test Event") };
             SetProperty(e, nameof(e.Version), i);
             events.Add(e);
         }
